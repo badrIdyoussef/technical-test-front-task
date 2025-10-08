@@ -7,7 +7,14 @@
  */
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-// import { setToken } from '@/lib/auth';
+import { setToken } from '@/lib/auth';
+import { z } from 'zod'; // Import Zod
+
+
+const loginSchema = z.object({
+  email: z.string().email("L'adresse email n'est pas valide."),
+  password: z.string().min(6, "Le mot de passe doit contenir au moins 6 caractères."),
+}); 
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -18,7 +25,26 @@ export default function Login() {
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     // TODO: valider + setToken(email) + router.push('/products')
-    setError('TODO: implémenter la connexion façade');
+    // setError('TODO: implémenter la connexion façade');
+
+    try {
+
+      loginSchema.parse({ email, password });
+
+      setToken(email);
+
+      router.push('/products');
+
+    } catch (error) {
+        if (error instanceof z.ZodError) {
+
+        const errorMessages = error.errors.map(e => e.message).join(' / ');
+        setError(errorMessages);
+
+      } else {
+        setError('Une erreur inconnue est survenue.');
+      } 
+    }
   }
 
   return (

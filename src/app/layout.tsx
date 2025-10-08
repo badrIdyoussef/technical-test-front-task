@@ -21,6 +21,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                 <Link href="/products">Produits</Link>
                 <Link href="/orders">Orders</Link>
                 <Link href="/metrics">Métriques</Link>
+                <Link href="/cart">cart
+                <span className="inline-flex items-center rounded-md bg-red-400/10 px-2 py-1 mx-1 text-xs font-medium text-red-400 inset-ring inset-ring-red-400/20">New</span>
+
+                </Link>
+
               </nav>
               <div className="ml-auto text-xs opacity-70">DummyJSON</div>
             </div>
